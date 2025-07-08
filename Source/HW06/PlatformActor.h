@@ -25,6 +25,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Settings")
 	FVector DirectionVector;
+	float CurrentDist;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Settings")
 	float MoveSpeed;

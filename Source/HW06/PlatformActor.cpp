@@ -14,6 +14,7 @@ APlatformActor::APlatformActor()
 	MaxRange = 500.0f;
 	Direction = 1.0f;
 	DirectionVector = FMath::VRand().GetSafeNormal();
+	CurrentDist = 0.0f;
 
 	bMovable = FMath::RandBool();
 	bRotatable = FMath::RandBool();
@@ -28,15 +29,21 @@ void APlatformActor::RotatingPlatform(float DeltaTime)
 
 void APlatformActor::MovingPlatform(float DeltaTime)
 {
-	FVector MoveLocation = DirectionVector * Direction * MoveSpeed * DeltaTime;
-	SetActorLocation(GetActorLocation() + MoveLocation);
+	CurrentDist += Direction * MoveSpeed * DeltaTime; // 이번 틱에 움직일 거리
 
-	float MoveDist = FVector::DotProduct(GetActorLocation() - StartLocation, DirectionVector);
-
-	if (MoveDist > MaxRange || MoveDist < 0)
+	if (CurrentDist > MaxRange)
 	{
-		Direction *= -1.0f;
+		CurrentDist = MaxRange - (CurrentDist - MaxRange);
+		Direction = -1.0f;
 	}
+	else if (CurrentDist < 0.0f)
+	{
+		CurrentDist = -CurrentDist;
+		Direction = 1.0f;
+	}
+
+	const FVector MoveLocation = StartLocation + (DirectionVector * CurrentDist);
+	SetActorLocation(MoveLocation);
 }
 
 void APlatformActor::DestroyPlatformActor()

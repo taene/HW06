@@ -14,7 +14,7 @@ class HW06_API AMyActorSpawner : public AActor
 public:	
 	AMyActorSpawner();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void SpawnActor();
 
 protected:
